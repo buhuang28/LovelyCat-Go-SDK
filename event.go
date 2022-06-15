@@ -47,6 +47,7 @@ func _EventGroupMsg(robot_wxid *C.char, _type C.int, from_wxid *C.char, from_nam
 
 //export _EventFriendMsg
 func _EventFriendMsg(robot_wxid *C.char, _type C.int, from_wxid *C.char, from_name *C.char, to_wxid *C.char, Msg *C.char) int32 {
+	SendTextMsg(goString(robot_wxid), goString(from_wxid), goString(Msg))
 	return 0
 }
 

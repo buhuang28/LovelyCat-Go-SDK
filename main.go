@@ -12,9 +12,6 @@ var (
 	DeveloperKey string = "818198829"
 )
 
-func init() {
-}
-
 func main() {
 
 }
