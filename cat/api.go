@@ -1,6 +1,8 @@
-package main
+package cat
 
-import "syscall"
+import (
+	"syscall"
+)
 
 var (
 	api                     = syscall.NewLazyDLL("coupler.dll")
@@ -48,7 +50,6 @@ func AcceptTransfer(robot_wxid string, from_wxid string, json_msg string) int64 
 	call, _, _ := ApiAcceptTransfer.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), str2ptr(from_wxid), str2ptr(json_msg))
 	return int64(call)
 }
-
 func AgreeFriendVerify(robot_wxid string, json_msg string) int64 {
 	call, _, _ := ApiAgreeFriendVerify.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), str2ptr(json_msg))
 	return int64(call)
@@ -69,9 +70,45 @@ func BuildingGroup(robot_wxid string, friends string) int64 {
 	return int64(call)
 }
 
+func GetRobotName(robot_wxid string) string {
+	call, _, _ := ApiGetRobotName.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid))
+	return ptr2str(call)
+}
+
 func DeleteFriend(robot_wxid string, friend_wxid string) int64 {
 	call, _, _ := ApiDeleteFriend.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), str2ptr(friend_wxid))
 	return int64(call)
+}
+
+func GetAppDirectory() string {
+	call, _, _ := ApiGetAppDirectory.Call(int2ptr(int64(AuthCode)))
+	return ptr2str(call)
+}
+
+func GetFriendList(robot_wxid string, is_refresh bool) string {
+	call, _, _ := ApiGetFriendList.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), int2ptr(int64(cBool(is_refresh))))
+	return ptr2str(call)
+}
+
+func GetGroupList(robot_wxid string, is_refresh bool) string {
+
+	call, _, _ := ApiGetGroupList.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), int2ptr(int64(cBool(is_refresh))))
+	return ptr2str(call)
+}
+
+func GetGroupMemberList(robot_wxid string, group_wxid string, is_refresh bool) string {
+	call, _, _ := ApiGetGroupMemberList.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid), str2ptr(group_wxid), int2ptr(int64(cBool(is_refresh))))
+	return ptr2str(call)
+}
+
+func GetLoggedAccountList() string {
+	call, _, _ := ApiGetLoggedAccountList.Call(int2ptr(int64(AuthCode)))
+	return ptr2str(call)
+}
+
+func GetRobotHeadimgurl(robot_wxid string) string {
+	call, _, _ := ApiGetRobotHeadimgurl.Call(int2ptr(int64(AuthCode)), str2ptr(robot_wxid))
+	return ptr2str(call)
 }
 
 func InviteInGroup(robot_wxid string, group_wxid string, friend_wxid string) int64 {
