@@ -2,37 +2,9 @@ package main
 
 import (
 	"LovelyCat-sdk/cat"
-	"github.com/ying32/govcl/vcl"
-	"github.com/ying32/govcl/vcl/rtl"
-	"github.com/ying32/govcl/vcl/types"
-	"github.com/ying32/govcl/vcl/win"
-	"runtime"
-	"time"
 )
 
 func init() {
-	go func() {
-		runtime.LockOSThread()
-		defer runtime.UnlockOSThread()
-		// 在go的dll中应该使用专用的初始函数
-		// 此方法也只适合第三方非govcl程序，不适合go+govcl+godll+govcl方式
-		rtl.InitGoDll(0) //0则自动获取当前线程Id
-		vcl.Application.Icon().SetHandle(win.LoadIcon2(win.GetSelfModuleHandle(), "DEFAULT_ICON"))
-		// 这。。。。。。有点无语啊
-		go func() {
-			time.Sleep(time.Second * 3)
-			vcl.ThreadSync(func() {
-				// 新建一个窗口
-				if Form1 == nil {
-					Form1 = NewForm1(nil)
-					Form1.SetShowInTaskBar(types.StAlways)
-					Form1.SetFormStyle(types.FsStayOnTop)
-				}
-			})
-		}()
-		vcl.Application.Run()
-	}()
-
 	cat.Name = "demo"
 	cat.Desc = "不慌的SDK"
 	cat.Author = "不慌"
@@ -106,11 +78,5 @@ func EventSysMsg(robot_wxid string, _type int32, Msg_json string) int32 {
 }
 
 func Menu() int32 {
-	vcl.ThreadSync(func() {
-		if Form1 != nil {
-			Form1.Show()
-		}
-	})
-	cat.AppendLogs("滑稽啦啦啦")
 	return 0
 }
